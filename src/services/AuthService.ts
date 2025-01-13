@@ -45,6 +45,26 @@ class AuthService implements AuthServiceContract{
             throw this.ResponseService.error("Erro interno no servidor", 500);
         }
     }
+
+    async processLogout(token: string): Promise<ResponseHandler>{
+        
+        try {
+            const login = await Login.findOne({ where: { token } });
+
+            if (!login) {
+                return this.ResponseService.error("Token não encontrado", 404);
+            }
+    
+            await login.destroy();
+    
+            return this.ResponseService.success("Logout encerrado com sucesso", 200, {
+                token,
+            });
+        } catch(error){
+            console.error("Erro ao fazer logout:", error);
+            throw this.ResponseService.error("Erro interno no servidor", 500);
+        }
+    }
     
 }
 

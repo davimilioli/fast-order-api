@@ -15,6 +15,16 @@ class AuthController extends HttpController{
             return this.res.status(500).json('Erro interno do servidor');
         } 
     }
+
+    async handleLogout(){
+        const { token } = this.req.body;
+        try {
+            const auth = await this.authService.processLogout(token);
+            return this.res.status(auth.statusCode).json(auth);
+        } catch(error){
+            return this.res.status(500).json('Erro interno do servidor');
+        }
+    }
 }
 
 export default AuthController;
