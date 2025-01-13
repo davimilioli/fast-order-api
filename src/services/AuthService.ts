@@ -1,14 +1,13 @@
 import AuthServiceContract from "../contracts/AuthServiceContract";
 import ResponseService from "./ResponseService";
 import ResponseHandler from "../models/ResponseHandler";
+import Login from "../models/Login";
 import User from '../models/User';
 import jwt from 'jsonwebtoken';
-import HttpService from "./ResponseService";
 
 class AuthService implements AuthServiceContract{
 
     private ResponseService = new ResponseService();
-
 
     async processLogin(email: string, senha: string): Promise<ResponseHandler> {
         
@@ -25,6 +24,13 @@ class AuthService implements AuthServiceContract{
 
             if(senha === user.dataValues.senha) {
                 const token = jwt.sign({ nome }, JWT_SECRET, { expiresIn: "1h" });
+
+                await Login.create({
+                    user_id: user.id,
+                    token,
+                    expira_em: new Date(Date.now() + 60 * 60 * 1000),
+                    criado_em: new Date(),
+                });
                 
                 return this.ResponseService.success("Login feito com sucesso", 200, {
                     user: nome,
