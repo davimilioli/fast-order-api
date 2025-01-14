@@ -1,12 +1,12 @@
 import Express from "express";
-import dotenv from 'dotenv';
 import routers from "./routers";
 import cors from 'cors';
 import sequelize from "./database/database";
-dotenv.config();
+import BaseService from "./services/BaseService";
 
 const server = Express();
-const PORT = process.env.PORT || 3000;
+const baseService = new BaseService();
+const PORT = baseService.getEnv('PORT') || 3000;
 
 server.use(cors());
 server.use(Express.urlencoded({ extended: true }));
