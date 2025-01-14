@@ -1,28 +1,46 @@
-import Express from "express";
+import Express, { Application } from "express";
 import routers from "./routers";
 import cors from 'cors';
 import sequelize from "./database/database";
 import BaseService from "./services/BaseService";
 
-const server = Express();
-const baseService = new BaseService();
-const PORT: number = Number(baseService.getEnv('PORT')) || 3000;
+class Server {
+    private server: Application = Express();
+    private baseService: BaseService = new BaseService();
+    private port: number = Number(this.baseService.getEnv('PORT')) || 3000;
 
-server.use(cors());
-server.use(Express.urlencoded({ extended: true }));
-server.use(Express.json());
-server.use(routers);
+    constructor(){
+        this.initMiddlewares();
+        this.routers();
+    }
 
-server.listen(PORT, () => {
-    initDatabase()
-    console.log(`http://localhost:${PORT}`);
-})
+    private initMiddlewares(): any{
+        this.server.use(cors());
+        this.server.use(Express.urlencoded({ extended: true }));
+        this.server.use(Express.json());
+    }
 
-async function initDatabase(){
-    try {
-        await sequelize.sync();
-        await sequelize.authenticate();
-    } catch(error){
-        console.error('Erro ao iniciar banco de dados', error);
+    private routers(): any {
+        this.server.use(routers);
+    }
+
+    private async initDatabase(): Promise<void> {
+        try {
+            await sequelize.sync();
+            await sequelize.authenticate();
+        } catch (error) {
+            console.error('Erro ao iniciar banco de dados', error);
+        }
+    }
+
+    public async start(): Promise<void> {
+        await this.initDatabase();
+        this.server.listen(this.port, () => {
+            this.initDatabase()
+            console.log(`http://localhost:${this.port}`);
+        })
     }
 }
+
+const server = new Server();
+server.start();
