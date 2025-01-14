@@ -6,7 +6,7 @@ import BaseService from "./services/BaseService";
 
 const server = Express();
 const baseService = new BaseService();
-const PORT = baseService.getEnv('PORT') || 3000;
+const PORT: number = Number(baseService.getEnv('PORT')) || 3000;
 
 server.use(cors());
 server.use(Express.urlencoded({ extended: true }));
