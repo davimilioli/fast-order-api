@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken';
 
 class AuthService implements AuthServiceContract{
 
-    private ResponseService = new ResponseService();
+    private ResponseService: ResponseService = new ResponseService();
 
     async processLogin(email: string, senha: string): Promise<ResponseHandler> {
         
