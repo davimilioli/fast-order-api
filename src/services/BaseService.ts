@@ -11,7 +11,6 @@ class BaseService implements BaseServiceContract{
             throw new Error(`A variável de ambiente ${env} não existe`);
         }
 
-
         return configEnv;
     }
 }
