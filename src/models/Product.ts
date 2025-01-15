@@ -83,9 +83,8 @@ Product.init({
         allowNull: true,
     },
     tags: {
-        type: DataTypes.ARRAY(DataTypes.STRING), 
+        type: DataTypes.STRING, 
         allowNull: false,
-        defaultValue: [], 
     },
 }, {
     sequelize,
