@@ -19,4 +19,9 @@ router.get('/products', (req, res) => {
     productController.getList();
 })
 
+router.post('/products', (req, res) => {
+    const productController = new ProductController(req, res);
+    productController.registerProduct();
+})
+
 export default router;

@@ -10,10 +10,10 @@ export interface ProductAttributes {
     ativo: boolean;
     peso: number;
     imagem?: string;
-    criado_em: Date;
-    atualizado_em: Date;
+    criado_em?: Date;
+    atualizado_em?: Date;
     desconto?: number;
-    tags: string[];
+    tags?: string[];
 }
 
 interface ProductCreationAttributes extends Optional<ProductAttributes, 'id'>{}

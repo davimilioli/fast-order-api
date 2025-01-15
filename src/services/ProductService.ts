@@ -1,8 +1,13 @@
 import ProductServiceContract from "../contracts/ProductServiceContract";
 import ResponseProductList from "../models/ResponseProductList";
-import { Product } from "../models/Product";
+import { Product, ProductAttributes } from "../models/Product";
+import ResponseService from "./ResponseService";
+import ResponseHandler from "../models/ResponseHandler";
 
 class ProductService implements ProductServiceContract{
+
+    private responseService: ResponseService = new ResponseService()
+
     async productList(page: number, pageSize: number): Promise<ResponseProductList> {
         try {
             const offset = (page - 1) * pageSize;
@@ -22,6 +27,26 @@ class ProductService implements ProductServiceContract{
 
         } catch(error){
             console.error('Erro ao consulta lista de produtos', error);
+            throw new Error('Erro interno no servidor');
+        }
+    }
+
+    async createProduct(product: ProductAttributes): Promise<any>{
+        try {
+            await Product.create(
+                {
+                    ...product,
+                    criado_em: new Date(),
+                    atualizado_em: new Date(),
+                }
+            );
+
+            return this.responseService.success("Produto criado com sucesso", 201, {
+                produto: product
+            });
+
+        } catch(error){
+            console.error('Erro ao criar novo produto', error);
             throw new Error('Erro interno no servidor');
         }
     }
