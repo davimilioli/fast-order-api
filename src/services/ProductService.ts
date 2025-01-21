@@ -3,10 +3,12 @@ import ResponseProductList from "../models/ResponseProductList";
 import { Product, ProductAttributes } from "../models/Product";
 import ResponseService from "./ResponseService";
 import ResponseHandler from "../models/ResponseHandler";
+import ImageService from "./ImageService";
 
 class ProductService implements ProductServiceContract{
 
-    private responseService: ResponseService = new ResponseService()
+    private responseService: ResponseService = new ResponseService();
+    private imageService: ImageService = new ImageService();
 
     async productList(page: number, pageSize: number): Promise<ResponseProductList> {
         try {
@@ -33,6 +35,17 @@ class ProductService implements ProductServiceContract{
 
     async createProduct(product: ProductAttributes): Promise<any>{
         try {
+
+            if(product.imagem){
+                const processImage = this.imageService.processImage(product.imagem as Express.Multer.File);
+
+                if(!processImage){
+                    return this.responseService.success("Tipo de imagem não é válida", 401, {});
+                }
+
+                product.imagem = processImage as string;
+            }
+
             await Product.create(
                 {
                     ...product,

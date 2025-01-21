@@ -1,8 +1,10 @@
 import { Router } from "express";
 import AuthController from "../controllers/AuthController";
 import ProductController from "../controllers/ProductController";
+import multer from "multer";
 
 const router = Router();
+const upload = multer({ dest: 'uploads/' });
 
 router.post('/login',  (req, res) => {
     const authController = new AuthController(req, res);
@@ -19,7 +21,7 @@ router.get('/products', (req, res) => {
     productController.getList();
 })
 
-router.post('/products', (req, res) => {
+router.post('/products', upload.single('imagem'),(req, res) => {
     const productController = new ProductController(req, res);
     productController.registerProduct();
 })

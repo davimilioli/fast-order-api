@@ -9,7 +9,7 @@ export interface ProductAttributes {
     preco: number;
     ativo: boolean;
     peso: number;
-    imagem?: string;
+    imagem?: Express.Multer.File | string | null;
     criado_em?: Date;
     atualizado_em?: Date;
     desconto?: number;
@@ -26,7 +26,7 @@ export class Product extends Model<ProductAttributes, ProductCreationAttributes>
     public preco!: number;
     public ativo!: boolean;
     public peso!: number;
-    public imagem!: string;
+    public imagem!: Express.Multer.File | string | null;
     public criado_em!: Date;
     public atualizado_em!: Date;
     public desconto!: number;

@@ -18,8 +18,9 @@ class ProductController extends HttpController{
     }
     
     async registerProduct() {
-        const { nome, categoria, descricao, preco, ativo, peso, imagem, desconto, tags } = this.req.body;
-
+        const { nome, categoria, descricao, preco, ativo, peso, desconto, tags } = this.req.body;
+        let imagem = this.req.file || null;
+        
         try {
 
             const productData = {
