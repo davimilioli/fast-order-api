@@ -63,6 +63,25 @@ class ProductService implements ProductServiceContract{
             throw new Error('Erro interno no servidor');
         }
     }
+
+    async deleteProduct(id: number): Promise<any> {
+        try{
+            const product = await Product.findByPk(id)
+
+            if(!product){
+                return this.responseService.success(`O ID ${id} não foi encontrado`, 404, {});
+            }
+
+            await Product.destroy({ where: {id: id } });
+            return this.responseService.success("Produto excluído com sucesso", 200, {
+                produto: product?.dataValues
+            });
+
+        } catch(error){
+            console.error('Erro ao deletar o produto', error);
+            throw new Error('Erro interno no servidor');
+        }
+    }
 }
 
 export default ProductService;

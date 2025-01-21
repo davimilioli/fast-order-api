@@ -26,4 +26,9 @@ router.post('/products', upload.single('imagem'),(req, res) => {
     productController.registerProduct();
 })
 
+router.delete('/products/:id', (req, res) => {
+    const productController = new ProductController(req, res);
+    productController.removeProduct();
+})
+
 export default router;

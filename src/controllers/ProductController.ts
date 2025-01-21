@@ -36,26 +36,27 @@ class ProductController extends HttpController{
             };
 
             const createProduct = await this.productService.createProduct(productData);
-
             return this.res.status(createProduct.statusCode).json(createProduct);
 
         } catch(error){
             return this.res.status(500).json('Erro interno do servidor');
         }
 
+    }
 
-/*             id?: number;
-    nome: string;
-    categoria?: string;
-    descricao: string;
-    preco: number;
-    ativo: boolean;
-    peso: number;
-    imagem?: string;
-    criado_em: Date;
-    atualizado_em: Date;
-    desconto?: number;
-    tags: string[]; */
+    async removeProduct(){
+        const id: number = Number(this.req.params.id as string)
+        
+        if(!id){
+            return this.res.status(401).json('O ID precisa ser passado.');
+        }
+
+        try {
+            const deleteProduct = await this.productService.deleteProduct(id)
+            return this.res.status(deleteProduct.statusCode).json(deleteProduct);
+        }catch(error){
+            return this.res.status(500).json('Erro interno do servidor');
+        }
     }
 }
 
