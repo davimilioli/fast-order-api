@@ -70,7 +70,7 @@ class ProductController extends HttpController{
             const getProduct = await this.productService.getProduct(id);
 
             if(getProduct === null){
-                return this.res.status(400).json([])
+                return this.res.status(404).json([])
             }
 
             return this.res.status(200).json(getProduct);
