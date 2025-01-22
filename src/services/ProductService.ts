@@ -7,8 +7,13 @@ import ImageService from "./ImageService";
 
 class ProductService implements ProductServiceContract{
 
-    private responseService: ResponseService = new ResponseService();
-    private imageService: ImageService = new ImageService();
+    private responseService: ResponseService;
+    private imageService: ImageService;
+
+    constructor(){
+        this.responseService = new ResponseService();
+        this.imageService = new ImageService()
+    }
 
     async productList(page: number, pageSize: number): Promise<ResponseProductList> {
         try {

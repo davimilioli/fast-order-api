@@ -8,8 +8,13 @@ import BaseService from "./BaseService";
 
 class AuthService implements AuthServiceContract{
 
-    private ResponseService: ResponseService = new ResponseService();
-    private baseService: BaseService = new BaseService()
+    private ResponseService: ResponseService;
+    private baseService: BaseService;
+
+    constructor(){
+        this.ResponseService = new ResponseService();
+        this.baseService = new BaseService();
+    }
 
     async processLogin(email: string, senha: string): Promise<ResponseHandler> {
         
