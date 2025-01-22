@@ -13,7 +13,7 @@ export interface ProductAttributes {
     criado_em?: Date;
     atualizado_em?: Date;
     desconto?: number;
-    tags?: string[];
+    tags?: string[] | [];
 }
 
 interface ProductCreationAttributes extends Optional<ProductAttributes, 'id'>{}
@@ -53,7 +53,7 @@ Product.init({
     },
     preco: {
         type: DataTypes.FLOAT,
-        allowNull: false,
+        allowNull: true,
     },
     ativo: {
         type: DataTypes.BOOLEAN,
@@ -62,7 +62,7 @@ Product.init({
     },
     peso: {
         type: DataTypes.FLOAT,
-        allowNull: false,
+        allowNull: true,
     },
     imagem: {
         type: DataTypes.STRING,
@@ -84,7 +84,7 @@ Product.init({
     },
     tags: {
         type: DataTypes.STRING, 
-        allowNull: false,
+        allowNull: true,
     },
 }, {
     sequelize,
