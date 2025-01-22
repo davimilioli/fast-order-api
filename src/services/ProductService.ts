@@ -3,6 +3,7 @@ import ResponseProductList from "../models/ResponseProductList";
 import { Product, ProductAttributes } from "../models/Product";
 import ResponseService from "./ResponseService";
 import ImageService from "./ImageService";
+import ResponseHandler from "../models/ResponseHandler";
 
 class ProductService implements ProductServiceContract{
 
@@ -37,7 +38,7 @@ class ProductService implements ProductServiceContract{
         }
     }
 
-    async createProduct(product: ProductAttributes): Promise<any>{
+    async createProduct(product: ProductAttributes): Promise<ResponseHandler>{
         try {
 
             if(product.imagem){
@@ -68,7 +69,7 @@ class ProductService implements ProductServiceContract{
         }
     }
 
-    async deleteProduct(id: number): Promise<any> {
+    async deleteProduct(id: number): Promise<ResponseHandler> {
         try{
             const product = await Product.findByPk(id)
 
