@@ -58,6 +58,26 @@ class ProductController extends HttpController{
             return this.res.status(500).json('Erro interno do servidor');
         }
     }
+
+    async findProduct(){
+        const id: number = Number(this.req.params.id as string);
+
+        if(!id){
+            return this.res.status(401).json('O ID precisa ser passado.');
+        }
+
+        try{
+            const getProduct = await this.productService.getProduct(id);
+
+            if(getProduct === null){
+                return this.res.status(400).json([])
+            }
+
+            return this.res.status(200).json(getProduct);
+        } catch(error){
+            return this.res.status(500).json('Erro interno do servidor');
+        }
+    }
 }
 
 export default ProductController;

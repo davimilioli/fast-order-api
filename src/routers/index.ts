@@ -31,4 +31,9 @@ router.delete('/products/:id', (req, res) => {
     productController.removeProduct();
 })
 
+router.get('/products/:id', (req, res) => {
+    const productController = new ProductController(req, res);
+    productController.findProduct();
+})
+
 export default router;

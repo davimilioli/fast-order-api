@@ -87,6 +87,22 @@ class ProductService implements ProductServiceContract{
             throw new Error('Erro interno no servidor');
         }
     }
+
+    async getProduct(id: number): Promise<ProductAttributes | null> {
+        try{
+            const product = await Product.findByPk(id);
+
+            if(!product){
+                return null;
+            }
+
+            return product;
+        } catch(error){
+            console.error('Erro ao encontrar produto', error);
+            throw new Error('Erro interno no servidor');
+        }
+
+    }
 }
 
 export default ProductService;
