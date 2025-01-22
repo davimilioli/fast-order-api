@@ -2,7 +2,6 @@ import ProductServiceContract from "../contracts/ProductServiceContract";
 import ResponseProductList from "../models/ResponseProductList";
 import { Product, ProductAttributes } from "../models/Product";
 import ResponseService from "./ResponseService";
-import ResponseHandler from "../models/ResponseHandler";
 import ImageService from "./ImageService";
 
 class ProductService implements ProductServiceContract{
