@@ -13,7 +13,7 @@ export interface ProductAttributes {
     criado_em?: Date;
     atualizado_em?: Date;
     desconto?: number;
-    tags?: string[] | [];
+    tags?: string | null;
 }
 
 interface ProductCreationAttributes extends Optional<ProductAttributes, 'id'>{}
@@ -30,7 +30,7 @@ export class Product extends Model<ProductAttributes, ProductCreationAttributes>
     public criado_em!: Date;
     public atualizado_em!: Date;
     public desconto!: number;
-    public tags!: string[];
+    public tags!: string | null;
 }
 
 Product.init({
@@ -85,6 +85,7 @@ Product.init({
     tags: {
         type: DataTypes.STRING, 
         allowNull: true,
+        defaultValue: null
     },
 }, {
     sequelize,

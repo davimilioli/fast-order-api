@@ -45,13 +45,16 @@ class ProductService implements ProductServiceContract{
         try {
             if(product.imagem){
                 processImage = this.imageService.processImage(product.imagem as Express.Multer.File);
+                console.log(processImage)
 
                 if(!processImage){
                     return this.responseService.success("Tipo de imagem não é válida", 401, {});
                 }
             }
 
-            await Product.create(
+            console.log(processImage)
+
+            const createProduct = await Product.create(
                 {
                     ...product,
                     imagem: processImage || null,
@@ -61,14 +64,17 @@ class ProductService implements ProductServiceContract{
             );
 
             return this.responseService.success("Produto criado com sucesso", 201, {
-                produto: product
+                produto: {
+                    ...createProduct.toJSON(),
+                    imagem: processImage
+                }
             });
 
         } catch(error){
             if(processImage){
                 this.imageService.deleteImage(processImage);
             }
-            
+
             console.error('Erro ao criar novo produto', error);
             throw new Error('Erro interno no servidor');
         }
