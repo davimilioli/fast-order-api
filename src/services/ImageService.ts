@@ -24,6 +24,17 @@ class ImageService implements ImageServiceContract {
 
         return newImageName;
     }
+
+    deleteImage(filePath: string){
+        const uploadDir = join(__dirname, '../../uploads');
+        const fullPath = path.resolve(uploadDir, filePath);
+
+        if(!existsSync(fullPath)){
+            return 'Imagem não encontrada'
+        }
+
+        unlinkSync(fullPath);
+    }
 }
 
 export default ImageService;

@@ -39,21 +39,22 @@ class ProductService implements ProductServiceContract{
     }
 
     async createProduct(product: ProductAttributes): Promise<ResponseHandler>{
-        try {
 
+        let processImage: string | null = null;
+
+        try {
             if(product.imagem){
-                const processImage = this.imageService.processImage(product.imagem as Express.Multer.File);
+                processImage = this.imageService.processImage(product.imagem as Express.Multer.File);
 
                 if(!processImage){
                     return this.responseService.success("Tipo de imagem não é válida", 401, {});
                 }
-
-                product.imagem = processImage as string;
             }
 
             await Product.create(
                 {
                     ...product,
+                    imagem: processImage || null,
                     criado_em: new Date(),
                     atualizado_em: new Date(),
                 }
@@ -64,6 +65,10 @@ class ProductService implements ProductServiceContract{
             });
 
         } catch(error){
+            if(processImage){
+                this.imageService.deleteImage(processImage);
+            }
+            
             console.error('Erro ao criar novo produto', error);
             throw new Error('Erro interno no servidor');
         }
