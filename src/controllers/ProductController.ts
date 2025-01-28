@@ -78,6 +78,43 @@ class ProductController extends HttpController{
             return this.res.status(500).json('Erro interno do servidor');
         }
     }
+
+    async modifyProduct() {
+        const id: number = Number(this.req.params.id);
+    
+        if (!id) {
+            return this.res.status(401).json({ message: 'O ID precisa ser passado.' });
+        }
+    
+        const { nome, categoria, descricao, preco, ativo, peso, desconto, tags } = this.req.body;
+        let imagem = this.req.file || null;
+
+        console.log(this.req.body)
+    
+        try {
+
+            const productData = {
+                nome,
+                categoria,
+                descricao,
+                preco,
+                ativo,
+                peso,
+                imagem,
+                desconto,
+                tags,
+            };
+    
+            console.log(productData)
+            const modifyProduct = await this.productService.editProduct(id, productData); 
+
+            return this.res.status(200).json(modifyProduct);
+        } catch (error) {
+            console.error('Erro ao modificar produto', error);
+            return this.res.status(500).json('Erro interno do servidor');
+        }
+    }
+    
 }
 
 export default ProductController;

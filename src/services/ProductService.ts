@@ -114,6 +114,51 @@ class ProductService implements ProductServiceContract{
         }
 
     }
+
+    async editProduct(id: number, product: ProductAttributes): Promise<ResponseHandler> {
+        try {
+
+            const existingProduct = await Product.findByPk(id);
+    
+            if (!existingProduct) {
+                return this.responseService.success("Produto não encontrado", 404, {});
+            }
+    
+            let processImage: string | null = null;
+            if (product.imagem) {
+                processImage = this.imageService.processImage(product.imagem as Express.Multer.File);
+    
+                if (!processImage) {
+                    return this.responseService.success("Tipo de imagem não é válida", 401, {});
+                }
+            }
+    
+            await existingProduct.update({
+                nome: product.nome || existingProduct.nome,
+                categoria: product.categoria || existingProduct.categoria,
+                descricao: product.descricao || existingProduct.descricao,
+                preco: product.preco || existingProduct.preco,
+                ativo: product.ativo !== undefined ? product.ativo : existingProduct.ativo,
+                peso: product.peso || existingProduct.peso,
+                imagem: processImage || existingProduct.imagem, 
+                atualizado_em: new Date(), 
+                desconto: product.desconto || existingProduct.desconto,
+                tags: product.tags || existingProduct.tags,
+            });
+    
+            return this.responseService.success("Produto atualizado com sucesso", 200, {
+                produto: {
+                    ...existingProduct.toJSON(),
+                    imagem: processImage || existingProduct.imagem,
+                }
+            });
+    
+        } catch (error) {
+            console.error('Erro ao atualizar produto', error);
+            throw new Error('Erro interno no servidor');
+        }
+    }
+    
 }
 
 export default ProductService;

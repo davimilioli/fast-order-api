@@ -36,4 +36,9 @@ router.get('/products/:id', (req, res) => {
     productController.findProduct();
 })
 
+router.put('/products/:id', (req, res) => {
+    const productController = new ProductController(req, res);
+    productController.modifyProduct();
+})
+
 export default router;
