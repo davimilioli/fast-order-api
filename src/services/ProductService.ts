@@ -117,7 +117,6 @@ class ProductService implements ProductServiceContract{
 
     async editProduct(id: number, product: ProductAttributes): Promise<ResponseHandler> {
         try {
-
             const existingProduct = await Product.findByPk(id);
     
             if (!existingProduct) {
@@ -125,12 +124,22 @@ class ProductService implements ProductServiceContract{
             }
     
             let processImage: string | null = null;
-            if (product.imagem) {
+            const existingImage: string = String(existingProduct.dataValues.imagem);
+    
+            if (product.imagem && (product.imagem as Express.Multer.File).originalname !== existingImage) {
+    
+                if (existingImage) {
+                    this.imageService.deleteImage(existingImage);
+                }
+    
                 processImage = this.imageService.processImage(product.imagem as Express.Multer.File);
     
                 if (!processImage) {
                     return this.responseService.success("Tipo de imagem não é válida", 401, {});
                 }
+
+            } else {
+                processImage = existingImage;
             }
     
             await existingProduct.update({
@@ -140,8 +149,8 @@ class ProductService implements ProductServiceContract{
                 preco: product.preco || existingProduct.preco,
                 ativo: product.ativo !== undefined ? product.ativo : existingProduct.ativo,
                 peso: product.peso || existingProduct.peso,
-                imagem: processImage || existingProduct.imagem, 
-                atualizado_em: new Date(), 
+                imagem: processImage,
+                atualizado_em: new Date(),
                 desconto: product.desconto || existingProduct.desconto,
                 tags: product.tags || existingProduct.tags,
             });
@@ -149,7 +158,7 @@ class ProductService implements ProductServiceContract{
             return this.responseService.success("Produto atualizado com sucesso", 200, {
                 produto: {
                     ...existingProduct.toJSON(),
-                    imagem: processImage || existingProduct.imagem,
+                    imagem: processImage,
                 }
             });
     
@@ -158,6 +167,8 @@ class ProductService implements ProductServiceContract{
             throw new Error('Erro interno no servidor');
         }
     }
+    
+     
     
 }
 

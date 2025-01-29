@@ -36,7 +36,7 @@ router.get('/products/:id', (req, res) => {
     productController.findProduct();
 })
 
-router.put('/products/:id', (req, res) => {
+router.put('/products/:id', upload.single('imagem'), (req, res) => {
     const productController = new ProductController(req, res);
     productController.modifyProduct();
 })

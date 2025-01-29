@@ -17,7 +17,7 @@ class ImageService implements ImageServiceContract {
             mkdirSync(uploadDir);
         }
 
-        const newImageName = `${Date.now()}-${image.originalname}`;
+        const newImageName = image.originalname;
         const newImagePath = path.join(uploadDir, newImageName);
 
         renameSync(image.path, newImagePath);
