@@ -15,18 +15,18 @@ Sistema de pedidos para delivery sendo desenvolvido em Node.js com TypeScript e 
 * Utilização do JWT (JSON Web Tokens).,
 
 **Métodos:**
-`POST /login:` Recebe credenciais e retorna um token JWT.
-`POST /logout:` Realiza a desautenticação do usuário.
+*`POST /login:` Recebe credenciais e retorna um token JWT.
+*`POST /logout:` Realiza a desautenticação do usuário.
 
 ### Gerenciamento de Produto
 * Permite adicão, remoção e atualização de produtos no sistema.
 
 **Métodos:**
-`POST /products:` Cria um novo produto.
-`GET /products:` Lista todos os produtos disponíveis.
-`GET /products/:id:` Obtém detalhes de um produto específico.
-`PUT /products/:id:` Atualiza um produto existente.
-`DELETE /products/:id:` Remove um produto da lista.
+*`POST /products:` Cria um novo produto.
+*`GET /products:` Lista todos os produtos disponíveis.
+*`GET /products/:id:` Obtém detalhes de um produto específico.
+* `PUT /products/:id:` Atualiza um produto existente.
+* `DELETE /products/:id:` Remove um produto da lista.
 
 ## Iniciar projeto
 
