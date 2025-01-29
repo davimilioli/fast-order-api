@@ -25,7 +25,7 @@ class ImageService implements ImageServiceContract {
         return newImageName;
     }
 
-    deleteImage(filePath: string){
+    deleteImage(filePath: string): any{
         const uploadDir = join(__dirname, '../../uploads');
         const fullPath = path.resolve(uploadDir, filePath);
 
